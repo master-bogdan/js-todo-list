@@ -9,43 +9,32 @@
   </head>
   <body>
 
-    <div class="form-section mt-5">
-      <div class="container">
-        <div class="row">
-          <div class="col col-8 mx-auto">
-            <div class="card">
-              <div class="card-body">
-                <h5 class="card-title">Add new task</h5>
-                <form name="addTask">
-                  <input
-                    type="text"
-                    name="title"
-                    id="title"
-                    class="form-control"
-                    placeholder="Task title"
-                  />
-                  <input
-                    type="text"
-                    name="body"
-                    id="body"
-                    class="form-control mt-3"
-                    placeholder="Task body"
-                  />
-                  <button type="submit" class="btn btn-primary mt-4">
-                    Add task
-                  </button>
-                </form>
-              </div>
+    <header>
+        <div class="card text-white bg-info mb-3">
+            <div class="card-header">
+                <h5 class="card-title">Native JS Todo List</h5>
+            </div>
+            <div class="card-body">
+                <p class="card-text">coded by Bogdan Shchavinskyi</p>
             </div>
           </div>
-        </div>
-      </div>
-    </div>
-    <div class="tasks-list-section mt-5">
-      <div class="container">
+    </header>
+
+    <div class="container">
+        <form>
+            <div class="form-group">
+            <label for="add-task">Write a task</label>
+            <input type="text" class="form-control" id="add-task" placeholder="write task">
+            </div>
+            <button type="submit" class="btn btn-primary">Add task</button>
+        </form>
         <ul class="list-group">
+            <!-- <li class="list-group-item active">Cras justo odio</li>
+            <li class="list-group-item">Dapibus ac facilisis in</li>
+            <li class="list-group-item">Morbi leo risus</li>
+            <li class="list-group-item">Porta ac consectetur ac</li>
+            <li class="list-group-item">Vestibulum at eros</li> -->
         </ul>
-      </div>
     </div>
 
     <script src="app.js"></script>
