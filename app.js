@@ -5,8 +5,8 @@ const input = document.querySelector('#add-task');
 const out = document.querySelector('.list-group');
 const list = document.querySelector('.list-group');
 
-// Функция отрисовки зданий из локального хранилища
-// Local satorage render function
+// Функция отрисовки заданий из локального хранилища
+// Local storage render function
 
 const renderStorage = () => {
     let task = Object.entries(localStorage);
@@ -15,7 +15,7 @@ const renderStorage = () => {
 
 renderStorage();
 
-// Функция добваления задачи
+// Функция добавления задачи
 // Function for adding tasks
 const addTask = (event) => {
     let count = localStorage.length;
@@ -42,10 +42,14 @@ function renderTask(id, value) {
     );
 }
 
-const deleteBtn = document.querySelector('.btn-trash');
-const deleteTask = () => {
-
-};
-// deleteBtn.addEventListener('click')
+const deleteBtns = document.querySelectorAll('.btn-trash');
+deleteBtns.forEach(elem => {
+    elem.addEventListener('click', (event) => {
+        console.log(this.event.target.closest('.list-group-item').id);
+        let item = this.event.target.closest('.list-group-item');
+        localStorage.removeItem(item.id);
+        item.remove();
+    });
+});
 
 });
