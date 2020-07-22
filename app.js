@@ -3,14 +3,16 @@ window.addEventListener('DOMContentLoaded',() => {
 const form = document.querySelector('form');
 const input = document.querySelector('#add-task');
 const out = document.querySelector('.list-group');
-const list = document.querySelector('.list-group');
+
+let todoList = [];
 
 // Функция отрисовки заданий из локального хранилища
 // Local storage render function
-
 const renderStorage = () => {
-    let task = Object.entries(localStorage);
-    task.map(([key, value]) => renderTask(key, value));
+    if (localStorage.getItem('todo') != undefined) {
+        todoList = JSON.parse(localStorage.getItem('todo'));
+    }
+    todoList.map((item) => renderTask(item.id, item.value));
 };
 
 renderStorage();
@@ -18,10 +20,12 @@ renderStorage();
 // Функция добавления задачи
 // Function for adding tasks
 const addTask = (event) => {
-    let count = localStorage.length;
     event.preventDefault();
-    localStorage.setItem( count + 1 , input.value);
+    let count = todoList.length;
+    todoList.push({id: count + 1 , value: input.value});
     renderTask(count + 1, input.value);
+    input.value = '';
+    localStorage.setItem('todo', JSON.stringify(todoList));
 };
 
 form.addEventListener('submit', addTask);
@@ -45,11 +49,19 @@ function renderTask(id, value) {
 const deleteBtns = document.querySelectorAll('.btn-trash');
 deleteBtns.forEach(elem => {
     elem.addEventListener('click', (event) => {
-        console.log(this.event.target.closest('.list-group-item').id);
-        let item = this.event.target.closest('.list-group-item');
-        localStorage.removeItem(item.id);
-        item.remove();
+        console.log(event.target.closest('.list-group-item').id);
+        let task = event.target.closest('.list-group-item');
+        todoList.map((item, index) => {
+            if (item.id == task.id) {
+                console.log(item.id);
+               return todoList.splice(item[index], 1);
+            }
+        });
+        task.remove();
+        localStorage.setItem('todo', JSON.stringify(todoList));
+        renderStorage();
     });
 });
+console.log(todoList);
 
 });
