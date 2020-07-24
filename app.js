@@ -2,14 +2,14 @@ window.addEventListener('DOMContentLoaded',() => {
 
 const form = document.querySelector('form');
 const input = document.querySelector('#add-task');
-const out = document.querySelector('.list-group');
+const list = document.querySelector('.list-group');
 
-let todoList = [];
+let todoListItems = [];
 
 // Функция рендер задачи
 // Task render function
 const renderTask = (id, value, checked) => {
-    out.insertAdjacentHTML('beforeend', 
+    list.insertAdjacentHTML('beforeend', 
     `<li id=${id} class="list-group-item">
         <div class="d-flex justify-content-between important">
             <span><input type="checkbox"> ${value} </span>
@@ -23,53 +23,54 @@ const renderTask = (id, value, checked) => {
 };
 
 // Функция отрисовки заданий из локального хранилища
-// Local storage render function
+    // Local storage render function
 const renderStorage = () => {
     if (localStorage.getItem('todo') != undefined) {
-        todoList = JSON.parse(localStorage.getItem('todo'));
+        todoListItems = JSON.parse(localStorage.getItem('todo'));
     }
-    todoList.map((item) => renderTask(item.id, item.value, item.checked, item.date));
+    todoListItems.map((item) => renderTask(item.id, item.value, item.checked, item.date));
 };
-
+    
 renderStorage();
 
 // Функция добавления задачи
 // Function for adding tasks
 const addTask = (event) => {
-    let count = todoList.length;
-    todoList.push(
-        {
-            id: count + 1, 
+    event.preventDefault();
+    let count = todoListItems.length;
+    const todoListItem = {
+            id: count++, 
             value: input.value, 
             checked: false,
-            date: Date.now()
-        });
+        };
+        todoListItems.push(todoListItem);
     input.value = '';
-    localStorage.setItem('todo', JSON.stringify(todoList));
+    localStorage.setItem('todo', JSON.stringify(todoListItems));
+    renderTask(todoListItem.id, todoListItem.value, todoListItem.checked);
 };
 
 form.addEventListener('submit', addTask);
 
-const deleteBtns = document.querySelectorAll('.btn-trash');
 
-const deleteTask = () => {
-
+const deleteTask = (event) => {
+    let target = event.target;
+    if (target.classList.contains('btn-trash') || target.classList.contains('fa-trash-alt')) {
+        // todoList.map((item, index) => {
+        //     if (item.id == target.closest('.list-group-item').id) {
+        //         console.log(item.id);
+        //        todoList.splice(item[index], 1).sort();
+        //     }
+        // });
+        const index = todoListItems.findIndex(item => item.id == target.closest('.list-group-item').id);
+        if (index !== -1) {
+            todoListItems.splice(index, 1);
+        }
+        target.closest('.list-group-item').remove();
+    }
+    localStorage.setItem('todo', JSON.stringify(todoListItems));
 };
 
-deleteBtns.forEach(elem => {
-    elem.addEventListener('click', (event) => {
-        console.log(event.target.closest('.list-group-item').id);
-        let task = event.target.closest('.list-group-item');
-        todoList.map((item, index) => {
-            if (item.id == task.id) {
-                console.log(item.id);
-               todoList.splice(item[index], 1);
-            }
-        });
-        task.remove();
-        localStorage.setItem('todo', JSON.stringify(todoList));
-    });
-});
-console.log(todoList);
+list.addEventListener('click', deleteTask);
 
+console.log(todoListItems);
 });
