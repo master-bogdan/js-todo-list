@@ -58,20 +58,8 @@ const addTask = (event) => {
 
 form.addEventListener('submit', addTask);
 
-// Функция удаления задачи
-// Delete task function
-// const warningDeleteTask = () => {
-//     warning.style.display = 'flex';
-//     warning.addEventListener('click', (event) => {
-//         let dataConfirm = event.target.getAttribute('data');
-//         warning.style.display = 'none';
-//         if (dataConfirm == 'yes') {
-//             return true;
-//         }
-//             return false;
-//     });
-// };
-
+// Функция удаления задачи с подтверждением
+// Delete task function with confirm
 
 const deleteTask = (event) => {
     let target = event.target;
@@ -80,7 +68,7 @@ const deleteTask = (event) => {
         warning.addEventListener('click', (event) => {
             let dataConfirm = event.target.getAttribute('data');
             warning.style.display = 'none';
-            if (dataConfirm != 'yes') {
+            if (dataConfirm == 'no') {
                 return false;
             } 
             else {
@@ -97,6 +85,21 @@ const deleteTask = (event) => {
 };
 
 list.addEventListener('click', deleteTask);
+
+// Функция любимой задачи
+// Favorite task function
+const favoriteTask = (event) => {
+    let target = event.target;
+    if (target.classList.contains('btn-star') || target.classList.contains('fa-star')) {
+        target.closest('.list-group-item').classList.toggle('bg-warning');
+        console.log('Yes');
+    }
+};
+
+list.addEventListener('click', favoriteTask);
+
+// Функция выполненого задания
+// Finish task function
 
 const checkedTask = (event) => {
     let target = event.target.checked;
