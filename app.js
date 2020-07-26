@@ -1,8 +1,10 @@
 window.addEventListener('DOMContentLoaded',() => {
 
 const form = document.querySelector('form');
-const input = document.querySelector('#add-task');
+const input = document.getElementById('add-task');
 const list = document.querySelector('.list-group');
+const warning = document.getElementById('warning-overlay');
+
 
 let todoListItems = [];
 
@@ -39,6 +41,9 @@ renderStorage();
 // Function for adding tasks
 const addTask = (event) => {
     event.preventDefault();
+    if (input.value === '') {
+       return alert('Enter your task!');
+    }
     let count = todoListItems.length;
     const todoListItem = {
             id: count++, 
@@ -55,16 +60,40 @@ form.addEventListener('submit', addTask);
 
 // Функция удаления задачи
 // Delete task function
+// const warningDeleteTask = () => {
+//     warning.style.display = 'flex';
+//     warning.addEventListener('click', (event) => {
+//         let dataConfirm = event.target.getAttribute('data');
+//         warning.style.display = 'none';
+//         if (dataConfirm == 'yes') {
+//             return true;
+//         }
+//             return false;
+//     });
+// };
+
+
 const deleteTask = (event) => {
     let target = event.target;
     if (target.classList.contains('btn-trash') || target.classList.contains('fa-trash-alt')) {
-        const index = todoListItems.findIndex(item => item.id == target.closest('.list-group-item').id);
-        if (index !== -1) {
-            todoListItems.splice(index, 1);
-        }
-        target.closest('.list-group-item').remove();
+        warning.style.display = 'flex';
+        warning.addEventListener('click', (event) => {
+            let dataConfirm = event.target.getAttribute('data');
+            warning.style.display = 'none';
+            if (dataConfirm != 'yes') {
+                return false;
+            } 
+            else {
+                const index = todoListItems.findIndex(item => item.id == target.closest('.list-group-item').id);
+                if (index !== -1) {
+                    todoListItems.splice(index, 1);
+                }
+                target.closest('.list-group-item').remove();
+            }
+            localStorage.setItem('todo', JSON.stringify(todoListItems));
+        });
     }
-    localStorage.setItem('todo', JSON.stringify(todoListItems));
+    
 };
 
 list.addEventListener('click', deleteTask);
