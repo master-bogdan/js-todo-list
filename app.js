@@ -10,12 +10,12 @@ let todoListItems = [];
 
 // Функция рендер задачи
 // Task render function
-const renderTask = ({id, value, checked}) => {
+const renderTask = ({id, value, checked, strike, favorite}) => {
     list.insertAdjacentHTML('beforeend', 
-    `<li id=${id} class="list-group-item">
+    `<li id=${id} class="list-group-item ${favorite}">
         <div class="d-flex justify-content-between important">
             <div class="d-flex justify-content-between align-items-center">
-            <input type="checkbox"><span>${value}</span>
+            <input type="checkbox" ${checked}><span class="${strike}">${value}</span>
             </div>
             <div class="d-flex justify-content-center align-items-center">
                 <button type="button" class="btn-star btn-sm"><i class="fas fa-star"></i></button>
@@ -47,8 +47,10 @@ const addTask = (event) => {
     let count = todoListItems.length;
     const todoListItem = {
             id: count++, 
-            value: input.value, 
-            checked: false,
+            value: input.value,
+            checked: '', 
+            strike: '',
+            favorite: ''
         };
     todoListItems.push(todoListItem);
     input.value = '';
@@ -86,14 +88,22 @@ const deleteTask = (event) => {
 
 list.addEventListener('click', deleteTask);
 
-// Функция любимой задачи
+// Функция важной задачи
 // Favorite task function
+
 const favoriteTask = (event) => {
     let target = event.target;
     if (target.classList.contains('btn-star') || target.classList.contains('fa-star')) {
-        target.closest('.list-group-item').classList.toggle('bg-warning');
-        console.log('Yes');
+        const index = todoListItems.findIndex(item => item.id == target.closest('.list-group-item').id);
+        if (index !== -1 && todoListItems[index].favorite != 'bg-warning') {
+            todoListItems[index].favorite = 'bg-warning';
+            target.closest('.list-group-item').classList.add('bg-warning');
+        } else {
+            todoListItems[index].favorite = '';
+            target.closest('.list-group-item').classList.remove('bg-warning');
+        }
     }
+    localStorage.setItem('todo', JSON.stringify(todoListItems));
 };
 
 list.addEventListener('click', favoriteTask);
@@ -102,13 +112,23 @@ list.addEventListener('click', favoriteTask);
 // Finish task function
 
 const checkedTask = (event) => {
-    let target = event.target.checked;
-    if (target) {
-        event.target.nextSibling.classList.add('strike');
+    let target = event.target;
+    if (target.type === 'checkbox') {
+        const index = todoListItems.findIndex(item => item.id == target.closest('.list-group-item').id);
+        if (index !== -1 && todoListItems[index].checked == false) {
+            todoListItems[index].checked = 'checked';
+            todoListItems[index].strike = 'strike';
+            event.target.nextSibling.classList.add('strike');
+            console.log('yes');
+        } 
+        else {
+            todoListItems[index].checked = '';
+            todoListItems[index].strike = '';
+            event.target.nextSibling.classList.remove('strike');
+        }
+        localStorage.setItem('todo', JSON.stringify(todoListItems));
     }
-    else {
-        event.target.nextSibling.classList.remove('strike');
-    }
+    
 };
 
 list.addEventListener('change', checkedTask);
