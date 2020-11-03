@@ -12,25 +12,33 @@
   <body>
 
     <header>
-        <div class="card text-white bg-info mb-3">
-            <div class="card-header">
-                <h5 class="card-title">Native JS Todo List</h5>
-            </div>
-            <div class="card-body">
-                <p class="card-text">coded by Bogdan Shchavinskyi</p>
-            </div>
-          </div>
+        <nav class="navbar navbar-dark bg-primary">
+            <span class="navbar-brand mb-0 h1">
+                Native JS Todo List
+            </span>
+            <span class="navbar-brand mb-0 h1">
+                coded by Bogdan Shchavinskyi
+            </span>
+        </nav>
     </header>
 
-    <div class="container">
-        <form>
-            <div class="form-group">
-            <label for="add-task">Write a task</label>
-            <input type="text" class="form-control" id="add-task" placeholder="write task">
-            <button type="submit" class="btn btn-primary">Add task</button>
+    <div class="container mt-2">
+        <form id="add-task-form">
+            <div class="form-group w-100">
+                <h4 class="text-center">Write a task</h4>
+                <label for="add-task" class="w-100">
+                    <div class="row">
+                        <input type="text" class="form-control col-10" id="add-task" placeholder="Write task">
+                        <button type="submit" class="btn btn-outline-primary col-2">
+                            Add task
+                        </button>
+                    </div>
+                </label>
             </div>
-            
         </form>
+    </div>
+
+    <div class="container mt-2">
         <ul class="list-group">
         </ul>
     </div>
@@ -50,6 +58,6 @@
         </div>
     </div>
     
-    <script src="app.js"></script>
+    <script type="module" src="app.js"></script>
   </body>
 </html>

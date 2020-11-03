@@ -1,21 +1,22 @@
-window.addEventListener('DOMContentLoaded',() => {
+window.addEventListener('DOMContentLoaded', () => {
+    'use strict';
 
-const form = document.querySelector('form');
-const input = document.getElementById('add-task');
-const list = document.querySelector('.list-group');
-const warning = document.getElementById('warning-overlay');
+    const form = document.querySelector('#add-task-form');
+    const input = document.getElementById('add-task');
+    const list = document.querySelector('.list-group');
+    const warning = document.getElementById('warning-overlay');
 
-
-let todoListItems = [];
+    let todoListItems = [];
 
 // Функция рендер задачи
 // Task render function
-const renderTask = ({id, value, checked, strike, favorite}) => {
+const renderTodo = ({id, value, checked, strike, favorite}) => {
     list.insertAdjacentHTML('beforeend', 
     `<li id=${id} class="list-group-item ${favorite}">
         <div class="d-flex justify-content-between important">
             <div class="d-flex justify-content-between align-items-center">
-            <input type="checkbox" ${checked}><span class="${strike}">${value}</span>
+                <input type="checkbox" ${checked}>
+                <span class="${strike} ml-1">${value}</span>
             </div>
             <div class="d-flex justify-content-center align-items-center">
                 <button type="button" class="btn-star btn-sm"><i class="fas fa-star"></i></button>
@@ -26,39 +27,37 @@ const renderTask = ({id, value, checked, strike, favorite}) => {
     );
 };
 
-// Функция отрисовки заданий из локального хранилища
+    // Функция отрисовки заданий из локального хранилища
     // Local storage render function
-const renderStorage = () => {
+const getTodos = () => {
     if (localStorage.getItem('todo') != undefined) {
         todoListItems = JSON.parse(localStorage.getItem('todo'));
     }
-    todoListItems.map((item) => renderTask(item));
+    return todoListItems.forEach((item) => renderTodo(item));
 };
-    
-renderStorage();
 
-// Функция добавления задачи
-// Function for adding tasks
+getTodos();
+
+
+    // Функция добавления задачи
+    // Function for adding tasks
 const addTask = (event) => {
     event.preventDefault();
     if (input.value === '') {
        return alert('Enter your task!');
     }
-    let count = todoListItems.length;
-    const todoListItem = {
-            id: count++, 
+    const todo = {
+            id: Math.floor(Math.random() * 100), 
             value: input.value,
             checked: '', 
             strike: '',
             favorite: ''
         };
-    todoListItems.push(todoListItem);
+    todoListItems.push(todo);
     input.value = '';
     localStorage.setItem('todo', JSON.stringify(todoListItems));
-    renderTask(todoListItem);
+    renderTodo(todo);
 };
-
-form.addEventListener('submit', addTask);
 
 // Функция удаления задачи с подтверждением
 // Delete task function with confirm
@@ -86,8 +85,6 @@ const deleteTask = (event) => {
     
 };
 
-list.addEventListener('click', deleteTask);
-
 // Функция важной задачи
 // Favorite task function
 
@@ -106,11 +103,8 @@ const favoriteTask = (event) => {
     localStorage.setItem('todo', JSON.stringify(todoListItems));
 };
 
-list.addEventListener('click', favoriteTask);
-
 // Функция выполненого задания
 // Finish task function
-
 const checkedTask = (event) => {
     let target = event.target;
     if (target.type === 'checkbox') {
@@ -131,7 +125,9 @@ const checkedTask = (event) => {
     
 };
 
-list.addEventListener('change', checkedTask);
 
-console.log(todoListItems);
+    form.addEventListener('submit', addTask);
+    list.addEventListener('click', deleteTask);
+    list.addEventListener('click', favoriteTask);
+    list.addEventListener('change', checkedTask);
 });
