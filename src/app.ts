@@ -7,6 +7,11 @@ interface Todo {
   favorite: boolean;
 }
 
+/**
+ * todo
+ * fix todo rendering
+ */
+
 window.addEventListener('DOMContentLoaded', () => {
   const form = document.querySelector('#add-task-form') as HTMLFormElement;
   const list = document.querySelector('.list-group') as HTMLUListElement;
