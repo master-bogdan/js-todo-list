@@ -51,10 +51,15 @@ window.addEventListener('DOMContentLoaded', () => {
     );
 
     const deleteBtn = document.querySelectorAll('.btn-trash') as NodeListOf<HTMLButtonElement>;
+    const favoriteBtn = document.querySelectorAll('.btn-star') as NodeListOf<HTMLButtonElement>;
 
     deleteBtn.forEach((btn) => {
       btn.addEventListener('click', deleteTodo);
-    })
+    });
+
+    favoriteBtn.forEach((btn) => {
+      btn.addEventListener('click', setFavoriteTodo);
+    });
   };
 
   const renderNoTodo = () => {
@@ -104,7 +109,7 @@ window.addEventListener('DOMContentLoaded', () => {
     const todo: Todo = {
       id: Math.floor(Math.random() * 100), 
       value: input.value,
-      checked: true, 
+      checked: false, 
       strike: false,
       favorite: false,
     };
@@ -138,44 +143,43 @@ window.addEventListener('DOMContentLoaded', () => {
   // Функция важной задачи
   // Favorite task function
 
-  const favoriteTask = (event) => {
-      let target = event.target;
-      if (target.classList.contains('btn-star') || target.classList.contains('fa-star')) {
-          const index = todoListItems.findIndex(item => item.id == target.closest('.list-group-item').id);
-          if (index !== -1 && todoListItems[index].favorite != 'bg-warning') {
-              todoListItems[index].favorite = 'bg-warning';
-              target.closest('.list-group-item').classList.add('bg-warning');
-          } else {
-              todoListItems[index].favorite = '';
-              target.closest('.list-group-item').classList.remove('bg-warning');
-          }
+  const setFavoriteTodo = (event) => {
+    let target = event.target;
+    if (target.classList.contains('btn-star') || target.classList.contains('fa-star')) {
+      const index = todoListItems.findIndex(item => item.id == target.closest('.list-group-item').id);
+      if (index !== -1 && todoListItems[index].favorite != 'bg-warning') {
+          todoListItems[index].favorite = 'bg-warning';
+          target.closest('.list-group-item').classList.add('bg-warning');
+      } else {
+          todoListItems[index].favorite = '';
+          target.closest('.list-group-item').classList.remove('bg-warning');
       }
-      localStorage.setItem('todo', JSON.stringify(todoListItems));
+    }
+    localStorage.setItem('todo', JSON.stringify(todoListItems));
   };
 
   // Функция выполненого задания
   // Finish task function
   const checkedTask = (event) => {
-      let target = event.target;
-      if (target.type === 'checkbox') {
-          const index = todoListItems.findIndex(item => item.id == target.closest('.list-group-item').id);
-          if (index !== -1 && todoListItems[index].checked == false) {
-              todoListItems[index].checked = 'checked';
-              todoListItems[index].strike = 'strike';
-              event.target.nextSibling.classList.add('strike');
-          } 
-          else {
-              todoListItems[index].checked = '';
-              todoListItems[index].strike = '';
-              event.target.nextSibling.classList.remove('strike');
-          }
-          localStorage.setItem('todo', JSON.stringify(todoListItems));
+    let target = event.target;
+    if (target.type === 'checkbox') {
+      const index = todoListItems.findIndex(item => item.id == target.closest('.list-group-item').id);
+      if (index !== -1 && todoListItems[index].checked == false) {
+          todoListItems[index].checked = 'checked';
+          todoListItems[index].strike = 'strike';
+          event.target.nextSibling.classList.add('strike');
+      } 
+      else {
+          todoListItems[index].checked = '';
+          todoListItems[index].strike = '';
+          event.target.nextSibling.classList.remove('strike');
       }
+      localStorage.setItem('todo', JSON.stringify(todoListItems));
+    }
   };
 
   getTodos();
 
   form.addEventListener('submit', addTodo);
-  list.addEventListener('click', favoriteTask);
   list.addEventListener('change', checkedTask);
 });
