@@ -6,50 +6,58 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <script src="https://kit.fontawesome.com/b120e777af.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="style.css">
-    <title>Todo List</title>
+    <link rel="stylesheet" href="./public/style.css">
+    <title>TS Todo List</title>
   </head>
   <body>
 
     <header>
-        <div class="card text-white bg-info mb-3">
-            <div class="card-header">
-                <h5 class="card-title">Native JS Todo List</h5>
-            </div>
-            <div class="card-body">
-                <p class="card-text">coded by Bogdan Shchavinskyi</p>
-            </div>
-          </div>
+      <nav class="navbar navbar-dark bg-primary">
+        <h1 class="navbar-brand mb-0 h1">
+            TS Todo List
+        </h1>
+        <span class="navbar-brand mb-0 h1">
+            coded by Bogdan Shchavinskyi
+        </span>
+      </nav>
     </header>
 
-    <div class="container">
-        <form>
-            <div class="form-group">
-            <label for="add-task">Write a task</label>
-            <input type="text" class="form-control" id="add-task" placeholder="write task">
-            <button type="submit" class="btn btn-primary">Add task</button>
+    <div class="container mt-2">
+      <form id="add-task-form">
+        <div class="form-group w-100">
+          <h4 class="text-center">Add todo</h4>
+          <label for="add-task" class="w-100">
+            <div class="row">
+              <input type="text" class="form-control col-10" id="add-task" placeholder="Add todo">
+              <button type="submit" class="btn btn-outline-primary col-2">
+                  Add todo
+              </button>
             </div>
-            
-        </form>
-        <ul class="list-group">
-        </ul>
+          </label>
+        </div>
+      </form>
+    </div>
+
+    <div class="container mt-2">
+      <ul class="list-group">
+      </ul>
     </div>
 
     <div id="warning-overlay">
-        <div class="container">
-            <div class="card text-center">
-                <h5 class="card-header bg-danger">
-                Warning
-                </h5>
-                <div class="card-body">
-                <p class="card-text">Are you shure you wanna delete task?</p>
-                <button data="yes" type="button" class="btn btn-success">Yes</button>
-                <button data="no" type="button" class="btn btn-primary">No</button>
-                </div>
-            </div>
+      <div class="container">
+        <div class="card text-center">
+          <h5 class="card-header bg-danger">
+            Warning
+          </h5>
+          <div class="card-body">
+            <p class="card-text">Are you shure you wanna delete task?</p>
+            <button id="confirm" type="button" class="btn btn-success">Yes</button>
+            <button id="discard" type="button" class="btn btn-primary">No</button>
+          </div>
         </div>
+      </div>
     </div>
     
-    <script src="app.js"></script>
+    <script src="dist/app.js"></script>
   </body>
 </html>
