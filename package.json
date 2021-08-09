@@ -1,0 +1,20 @@
+{
+  "name": "js-todo-list",
+  "version": "1.0.0",
+  "description": ":scroll: Vanilla JS ToDo List ===============",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/master-bogdan/js-todo-list.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/master-bogdan/js-todo-list/issues"
+  },
+  "homepage": "https://github.com/master-bogdan/js-todo-list#readme"
+}
